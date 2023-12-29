@@ -10,3 +10,9 @@ variable "resource_group_location" {
   type = string
   default = "West US"
 }
+
+# variable "records_or_kubernetes_clusters" {
+#   type = map(object({
+#     name = string
+#   }))
+# }
