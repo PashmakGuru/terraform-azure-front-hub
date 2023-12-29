@@ -4,7 +4,7 @@ resource "azurerm_resource_group" "this" {
 }
 
 resource "azurerm_dns_zone" "this" {
-  for_each = toset(var.domains)
+  for_each = toset(var.zones)
   name                = each.value
   resource_group_name = azurerm_resource_group.this.name
 }
