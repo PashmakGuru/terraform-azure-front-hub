@@ -17,10 +17,10 @@ resource "azurerm_cdn_frontdoor_profile" "this" {
 # }
 
 resource "azurerm_cdn_frontdoor_origin_group" "this" {
-  for_each = toset(var.origin_groups)
-  name                     = each.key
-  cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.this.id
-  session_affinity_enabled = true
+  for_each                                                  = toset(var.origin_groups)
+  name                                                      = each.key
+  cdn_frontdoor_profile_id                                  = azurerm_cdn_frontdoor_profile.this.id
+  session_affinity_enabled                                  = true
   restore_traffic_time_to_healed_or_new_endpoint_in_minutes = 1
 
   load_balancing {
@@ -31,13 +31,13 @@ resource "azurerm_cdn_frontdoor_origin_group" "this" {
 }
 
 data "azurerm_public_ips" "this" {
-  for_each = var.public_ip_origins
+  for_each            = var.public_ip_origins
   resource_group_name = each.value.pip_resource_group_name
-  name_prefix = each.value.pip_name_prefix
+  name_prefix         = each.value.pip_name_prefix
 }
 
 resource "azurerm_cdn_frontdoor_origin" "this" {
-  for_each = var.public_ip_origins
+  for_each                      = var.public_ip_origins
   name                          = each.key
   cdn_frontdoor_origin_group_id = azurerm_cdn_frontdoor_origin_group.this[each.value.origin_group_name].id
   enabled                       = true
@@ -51,29 +51,29 @@ resource "azurerm_cdn_frontdoor_origin" "this" {
 }
 
 resource "azurerm_cdn_frontdoor_endpoint" "this" {
-  for_each = toset(var.endpoints)
+  for_each                 = toset(var.endpoints)
   name                     = each.key
   cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.this.id
 }
 
 resource "azurerm_cdn_frontdoor_rule_set" "this" {
-  for_each = toset(var.rule_sets)
+  for_each                 = toset(var.rule_sets)
   name                     = each.key
   cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.this.id
 }
 
 resource "azurerm_cdn_frontdoor_route" "this" {
-  for_each = var.routes
+  for_each                      = var.routes
   name                          = each.key
   cdn_frontdoor_endpoint_id     = azurerm_cdn_frontdoor_endpoint.this[each.value.endpoint_name].id
   cdn_frontdoor_origin_group_id = azurerm_cdn_frontdoor_origin_group.this[each.value.origin_group_name].id
-  cdn_frontdoor_origin_ids      = [
+  cdn_frontdoor_origin_ids = [
     for name in each.value.origin_names : azurerm_cdn_frontdoor_origin.this[name].id
   ]
-  cdn_frontdoor_rule_set_ids    = [
+  cdn_frontdoor_rule_set_ids = [
     for name in each.value.rule_set_names : azurerm_cdn_frontdoor_rule_set.this[name].id
   ]
-  enabled                       = true
+  enabled = true
 
   forwarding_protocol    = "HttpOnly"
   patterns_to_match      = each.value.patterns_to_match
@@ -81,5 +81,5 @@ resource "azurerm_cdn_frontdoor_route" "this" {
   https_redirect_enabled = true
 
   #cdn_frontdoor_custom_domain_ids = [azurerm_cdn_frontdoor_custom_domain.contoso.id, azurerm_cdn_frontdoor_custom_domain.fabrikam.id]
-  link_to_default_domain          = each.value.use_azure_domain
+  link_to_default_domain = each.value.use_azure_domain
 }
