@@ -3,7 +3,7 @@ variable "resource_group_name" {
 }
 
 variable "resource_group_location" {
-  type = string
+  type    = string
   default = "West US"
 }
 
@@ -11,7 +11,7 @@ variable "resource_group_location" {
 #     "pashmak.guru"
 #   ]
 variable "zones" {
-    type = list(string)
+  type = list(string)
 }
 
 #   [
@@ -30,19 +30,19 @@ variable "origin_groups" {
 #      }
 #   }
 variable "public_ip_origins" {
-    type = map(object({
-      origin_group_name = string
-      pip_resource_group_name = string
-      pip_name_prefix = string
-      origin_host_header = string
-    }))
+  type = map(object({
+    origin_group_name       = string
+    pip_resource_group_name = string
+    pip_name_prefix         = string
+    origin_host_header      = string
+  }))
 }
 
 # [
 #     "argocd-admin-pashmak-guru"
 # ]
 variable "endpoints" {
-    type = list(string)
+  type = list(string)
 }
 
 # [
@@ -69,11 +69,11 @@ variable "rule_sets" {
 # }
 variable "routes" {
   type = map(object({
-    endpoint_name = string
+    endpoint_name     = string
     origin_group_name = string
-    origin_names = list(string)
-    rule_set_names = list(string)
+    origin_names      = list(string)
+    rule_set_names    = list(string)
     patterns_to_match = list(string)
-    use_azure_domain = bool
+    use_azure_domain  = bool
   }))
 }

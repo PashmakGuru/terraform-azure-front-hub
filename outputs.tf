@@ -5,11 +5,11 @@ output "name_servers" {
 }
 
 output "urls" {
-    value = {
-        for endpointName, endpoint in azurerm_cdn_frontdoor_endpoint.this:
-            endpointName => {
-                # TODO: Add a unique identifier
-                host_name: endpoint.host_name
-            }
+  value = {
+    for endpointName, endpoint in azurerm_cdn_frontdoor_endpoint.this :
+    endpointName => {
+      # TODO: Add a unique identifier
+      host_name : endpoint.host_name
     }
+  }
 }
