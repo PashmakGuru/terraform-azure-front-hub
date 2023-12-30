@@ -8,7 +8,7 @@ on:
 
 jobs:
   tflint:
-    name: Terraform Linter
+    name: Lint Terraform
     runs-on: ubuntu-22.04
     steps:
     -
@@ -30,3 +30,22 @@ jobs:
     -
       name: Run TFLint
       run: tflint -f compact
+
+  format:
+    runs-on: ubuntu-22.04
+    name: Formate Terraform
+    steps:
+    -
+      name: Checkout
+      uses: actions/checkout@v3
+    -
+      name: Run terraform fmt
+      uses: dflook/terraform-fmt@v1
+    -
+      name: Create Pull Request
+      uses: peter-evans/create-pull-request@v5
+      with:
+        commit-message: "🔨 Run `terraform fmt`"
+        title: 🔨 Reformat Terraform Files
+        body: Update Terraform files to canonical format using `terraform fmt`
+        branch: refactor/terraform-fmt
