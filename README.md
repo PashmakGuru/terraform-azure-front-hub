@@ -5,6 +5,11 @@
 ## Overview
 This Terraform configuration automates the setup of Azure CDN resources, streamlining the deployment and management of CDN infrastructure.
 
+### Terraform Architecture
+```mermaid
+%%tfmermaid
+```
+
 ## Features
 - **Resource Group Management**: Creates and manages Azure resource groups.
 - **DNS Zone Configuration**: Handles the setup and configuration of Azure DNS zones.
@@ -26,4 +31,4 @@ For usage examples, refer to the [`example`](./example) directory.
 ## Workflows
 | Name | Description |
 |---|---|
-| [terraform-ci.yaml](.github/workflows/terraform-ci.yaml) | A workflow for linting and auto-formatting Terraform code. Triggered by pushes to  `main` and `dev` branches or on pull requests, it consists of two jobs: `tflint` for lint checks and  `format` for code formatting and automated pull requests. |
+| [terraform-ci.yaml](.github/workflows/terraform-ci.yaml) | A workflow for linting and auto-formatting Terraform code. Triggered by pushes to  `main` and `dev` branches or on pull requests, it consists of two jobs: `tflint` for lint checks, `format` for code formatting and submit a PR, and `tfmermaid` to update architecture graph and submit a PR. |
